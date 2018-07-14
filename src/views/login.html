@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/md5.js"></script>
     <title>登录页面</title>
 </head>
 
@@ -36,7 +37,7 @@
                                 <input type="text" class="form-control" name="vcode" id="vcodeId" placeholder="请输入验证码">
                             </div>
                             <div class="col-sm-3">
-                                <img id="vcodeimg" src="/acount/vcodeImg">
+                                <img id="vcodeimg" src="/account/vcodeImg">
                             </div>
                         </div>
                         <div class="form-group">
@@ -58,8 +59,31 @@
     $('#vcodeimg').click(function () {  
         console.log(11111);
         //更改图片路径
-        $(this).attr('src','/acount/vcodeImg?vcodeimg='+Math.random())
+        $(this).attr('src','/account/vcodeImg?vcodeimg='+Math.random())
     })
+    //点击跳转注册页面
+    function register() {  
+        window.location.href = "/account/register";
+    }
+    //点击登录
+    function login() {  
+        //获取登录信息
+        let username = $("#usernameId").val();
+        let password = $.md5($("#passwordId").val()+'DZH!@#love');
+        let vcode = $("#vcodeId").val();
+
+        //发送post请求
+        $.post('/account/login',{username,password,vcode},function (data, textStatus, jqXHR) {  
+            console.log(data);
+            //如果登录不成功  重新刷新验证码
+            if(data.status != 0){
+                $('#vcodeimg').attr('src','/account/vcodeImg?vcodeimg='+Math.random());
+            }else {
+                //跳转到学生后台管理页面
+                window.location.href = '/stuManageSystem/list';
+            }
+        })
+    }
 </script>
 
 </html>
