@@ -17,7 +17,7 @@
                 <input type="text" class="form-control" id="studentNameId" placeholder="请输入学生姓名进行查询" aria-describedby="basic-addon1" style="width:200px;margin-right:10px;"
                     value="{{keyword}}">
                 <input type="button" class="btn btn-success" onclick="search()" value="查找" style="margin-right:10px;">
-                <input type="button" class="btn btn-success" value="新增" onclick="window.location='/studentmanager/add'">
+                <input type="button" class="btn btn-success" value="新增" onclick="window.location='/stuManageSystem/add'">
             </div>
         </div>
         <div class="panel-body">
@@ -39,9 +39,9 @@
                         <td>{{this.sex}}</td>
                         <td>{{this.phone}}</td>
                         <td>
-                            <a href="#" class="btn btn-success">编辑</a> |
-
-                            <input type="button" class="btn btn-danger" value="删除">
+                            <!-- 跳转到编辑页面，params传参 -->
+                            <a href="/stuManageSystem/edit/{{this._id}}" onclick="toEdit()" class="btn btn-success">编辑</a> |
+                            <input type="button" onclick="deleteStudent('{{this._id}}')" class="btn btn-danger" value="删除">
                         </td>
                     </tr>
                     {{/each}}
@@ -50,11 +50,18 @@
         </div>
     </div>
     <script>
+        //点击查找
         function search(){
             //点击查找获取输入的值
             const keyword = $("#studentNameId").val();
             //跳转
             location.href = '/stuManageSystem/list?keyword='+keyword;
+        }
+        //点击删除
+        function deleteStudent(studentId) {  
+            if(confirm("确定删除？")){
+                location.href = `/stuManageSystem/delete/${studentId}`;
+            }
         }
     </script>
 {{/block}}

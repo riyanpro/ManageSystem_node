@@ -20,6 +20,9 @@ accountRouter.get('/register',accountCTRL.getRegisterPage);
 accountRouter.post('/register',accountCTRL.register);
 //处理登录请求
 accountRouter.post('/login',accountCTRL.login);
+//处理退出请求
+accountRouter.get('/logout',accountCTRL.logout);
+
 
 //导出
 module.exports = accountRouter;
